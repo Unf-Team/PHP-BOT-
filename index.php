@@ -1,7 +1,7 @@
 <?php
 ob_start();
-define('');
-$admin = '';
+define('98395256:AAGo6dCnlTbPCfH1pEXAMbS2poArQ7s0hzE');
+$admin = '105831687';
 include("telegram.php");
 $telegram = new Telegram(API_KEY);
 function httpt($method,$datas=[]){
