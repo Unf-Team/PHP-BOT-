@@ -41,12 +41,6 @@ if(isset($update->message->text)){
             ['text'=>'OWNER','callback_data'=>'owner']
           ]
           [
-            ['text'=>'Time','callback_data'=>'time']
-          ]
-          [
-            ['text'=>'Date','callback_data'=>'date']
-          ]
-          [
             ['text'=>'inline mode','switch_inline_query'=>'']
           ]
         ]
@@ -70,8 +64,6 @@ code write
 will return your text
 /mypic
 your profile picture
-/info
-your information
 :D
 
 ",
@@ -152,24 +144,6 @@ if(isset($update->message->sticker)){
     'text'=>'your sticker Emoji : '.($update->message->sticker->emoji)
   ]);
 }
- if($matches[0] == '/info'){
-  $id = $update->message->from->id;
-  $name = $update->message->from->first_name;
-  $last = $update->message->from->last_name;
-  $username = $update->message->from->username;
-      'chat_id'=>$chat_id,
-      httpt('sendMessage',[
-        'chat_id'=>$chat_id,
-        'text'=>"Your ID : $id\n\nYour Username : @$username\nYour first NAME :$name\nYuor last NAME :$last"
-      'reply_markup'=>json_encode([
-        'inline_keyboard'=>[
-          [
-            ['text'=>"$username",'url'=>"https://telegram.me/$username"]
-          ]
-        ]
-      ])
-    ]);
-  }
 if(isset($update->inline_query)){
   $inline_id = $update->inline_query->id;
   $inline_m = $update->inline_query->query;
@@ -214,6 +188,9 @@ if(isset($update->callback_query)){
     httpt('answerCallbackQuery',[
       'callback_query_id'=>$id,
       'text'=>$js->ENtime
+    ]);
+  }
+}
 if(isset($update->callback_query)){
   $id = $update->callback_query->id;
   $q = $update->callback_query->data;
@@ -226,5 +203,3 @@ if(isset($update->callback_query)){
   }
 }
 
-#EN
-#:D
