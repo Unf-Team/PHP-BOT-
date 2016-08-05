@@ -33,12 +33,12 @@ if(isset($update->message->text)){
   if($matches[0] == '/start'){
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
-      'text'=>"سلام خوش اومدی\nمن ربات فرمت نویسی متن هستم\nدستور\n/help\nرو ارسال کن",
+      'text'=>"HI \n welcome to unf ROBOT :D",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
         'inline_keyboard'=>[
           [
-            ['text'=>'Time 🔵','callback_data'=>'time']
+            ['text'=>'inline mode','switch_inline_query'=>'']
           ]
         ]
       ])
@@ -48,26 +48,26 @@ if(isset($update->message->text)){
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
       'text'=>"
-سلام خوش اومدی
-لیست دستورات
-👇
-/bold [متن]
-بولد نویسی متن
-/italic [متن]
-کج نویسی متن
-/code [متن]
-کد نویسی متن
-/info
-دریافت مشخصات شما
+hi
+commands
 
+/bold [text]
+bold write
+/italic [text]
+italic writer
+/code [text]
+code write
+/echo [text]
+will return your text
+/mypic
+your profile picture
 
-Powered by @taylor_team
 ",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
         'inline_keyboard'=>[
           [
-            ['text'=>'رفتن به حالت اینلاین','switch_inline_query'=>'']
+            ['text'=>'Inline','switch_inline_query'=>'']
           ]
         ]
       ])
@@ -167,15 +167,4 @@ if(isset($update->inline_query)){
       ]
     ])
   ]);
-}
-if(isset($update->callback_query)){
-  $id = $update->callback_query->id;
-  $q = $update->callback_query->data;
-  $js = json_decode(file_get_contents('http://api.gpmod.ir/time/'));
-  if($q == 'time'){
-    httpt('answerCallbackQuery',[
-      'callback_query_id'=>$id,
-      'text'=>$js->ENtime
-    ]);
-  }
 }
