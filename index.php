@@ -36,11 +36,6 @@ if(isset($update->message->text)){
       'text'=>"HI \n welcome to unf ROBOT :D",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
-        'inline_keyboard'=>[
-          [
-            ['text'=>'inline mode','switch_inline_query'=>'']
-          ]
-        ]
       ])
    ]));
   }
