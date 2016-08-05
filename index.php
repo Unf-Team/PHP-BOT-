@@ -1,6 +1,6 @@
 <?php
 ob_start();
-define('98395256:AAGo6dCnlTbPCfH1pEXAMbS2poArQ7s0hzE');
+define('API_KEY','98395256:AAFhB8pTFsFX43exnFiYf9zDCrYCo650zes');
 $admin = '105831687';
 include("telegram.php");
 $telegram = new Telegram(API_KEY);
@@ -33,15 +33,12 @@ if(isset($update->message->text)){
   if($matches[0] == '/start'){
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
-      'text'=>"HI \n welcome to unf ROBOT :D",
+      'text'=>"سلام خوش اومدی\nمن ربات فرمت نویسی متن هستم\nدستور\n/help\nرو ارسال کن",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
         'inline_keyboard'=>[
           [
-            ['text'=>'OWNER','callback_data'=>'owner']
-          ]
-          [
-            ['text'=>'inline mode','switch_inline_query'=>'']
+            ['text'=>'Time 🔵','callback_data'=>'time']
           ]
         ]
       ])
@@ -51,27 +48,26 @@ if(isset($update->message->text)){
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
       'text'=>"
-hi
-commands
+سلام خوش اومدی
+لیست دستورات
+👇
+/bold [متن]
+بولد نویسی متن
+/italic [متن]
+کج نویسی متن
+/code [متن]
+کد نویسی متن
+/info
+دریافت مشخصات شما
 
-/bold [text]
-bold write
-/italic [text]
-italic writer
-/code [text]
-code write
-/echo [text]
-will return your text
-/mypic
-your profile picture
-:D
 
+Powered by @taylor_team
 ",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
         'inline_keyboard'=>[
           [
-            ['text'=>'inline mode','switch_inline_query'=>'']
+            ['text'=>'رفتن به حالت اینلاین','switch_inline_query'=>'']
           ]
         ]
       ])
@@ -101,15 +97,7 @@ your profile picture
       'parse_mode'=>'HTML'
     ]));
   }
-  if($matches[0] == '/echo'){
-    $text = str_replace('/echo','',$update->message->text);
-    var_dump(httpt('sendMessage',[
-      'chat_id'=>$update->message->chat->id,
-      'text'=>".($text).",
-      'parse_mode'=>'HTML'
-    ]));
-  }
-  if($matches[0] == '/mypic'){
+  if($matches[0] == '/info'){
     $id = $update->message->from->id;
     $name = $update->message->from->first_name;
     $username = $update->message->from->username;
@@ -120,7 +108,7 @@ your profile picture
       httpt('sendPhoto',[
         'chat_id'=>$chat_id,
         'photo'=>$send,
-        'caption'=>"Your ID : $id\n\nYour Username : @$username\n🔵🔵🔵",
+        'caption'=>"Your ID : $id\n🔴🔴🔴\nYour Username : @$username\n🔵🔵🔵",
         'reply_markup'=>json_encode([
           'inline_keyboard'=>[
             [
@@ -133,7 +121,7 @@ your profile picture
     if(!$s->result->photos[0][1]->file_id){
       httpt('sendMessage',[
         'chat_id'=>$chat_id,
-        'text'=>"Your ID : $id\n\nYour Username : @$username\n"
+        'text'=>"Your ID : $id\n🔴🔴🔴\nYour Username : @$username\n🔵🔵🔵"
       ]);
     }
   }
@@ -141,7 +129,7 @@ your profile picture
 if(isset($update->message->sticker)){
   httpt('sendMessage',[
     'chat_id'=>$update->message->chat->id,
-    'text'=>'your sticker Emoji : '.($update->message->sticker->emoji)
+    'text'=>'Emoji : '.($update->message->sticker->emoji)
   ]);
 }
 if(isset($update->inline_query)){
@@ -191,15 +179,3 @@ if(isset($update->callback_query)){
     ]);
   }
 }
-if(isset($update->callback_query)){
-  $id = $update->callback_query->id;
-  $q = $update->callback_query->data;
-  $js = json_decode(file_get_contents('http://api.gpmod.ir/time/'));
-  if($q == 'date'){
-    httpt('answerCallbackQuery',[
-      'callback_query_id'=>$id,
-      'text'=>$js->ENdate
-    ]);
-  }
-}
-
