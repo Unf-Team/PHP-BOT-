@@ -33,9 +33,14 @@ if(isset($update->message->text)){
   if($matches[0] == '/start'){
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
-      'text'=>"HI \n welcome to unf ROBOT :D",
+      'text'=>"HI\nwelcome to unf ROBOT :D",
       'parse_mode'=>'HTML',
       'reply_markup'=>json_encode([
+        'inline_keyboard'=>[
+          [
+            ['text'=>'Time ','callback_data'=>'time']
+          ]
+        ]
       ])
    ]));
   }
