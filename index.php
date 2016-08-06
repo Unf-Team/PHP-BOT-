@@ -38,7 +38,7 @@ if(isset($update->message->text)){
       'reply_markup'=>json_encode([
         'inline_keyboard'=>[
           [
-            ['text'=>'Time ','callback_data'=>'time']
+            ['text'=>'Inline','switch_inline_query'=>'']
           ]
         ]
       ])
@@ -86,6 +86,14 @@ your profile picture
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
       'text'=>"<i>".($text)."</i>",
+      'parse_mode'=>'HTML'
+    ]));
+  }
+  if($matches[0] == '/echo'){
+    $text = str_replace('/echo','',$update->message->text);
+    var_dump(httpt('sendMessage',[
+      'chat_id'=>$update->message->chat->id,
+      'text'=>"(".($text).")",
       'parse_mode'=>'HTML'
     ]));
   }
