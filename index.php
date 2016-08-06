@@ -59,8 +59,6 @@ italic writer
 code write
 /echo [text]
 will return your text
-/mypic
-your profile picture
 
 ",
       'parse_mode'=>'HTML',
@@ -93,7 +91,7 @@ your profile picture
     $text = str_replace('/echo','',$update->message->text);
     var_dump(httpt('sendMessage',[
       'chat_id'=>$update->message->chat->id,
-      'text'=>"(".($text).")",
+      'text'=>"Your text 👉🏻".($text)."👈🏻",
       'parse_mode'=>'HTML'
     ]));
   }
@@ -105,35 +103,6 @@ your profile picture
       'parse_mode'=>'HTML'
     ]));
   }
-  if($matches[0] == '/info'){
-    $id = $update->message->from->id;
-    $name = $update->message->from->first_name;
-    $username = $update->message->from->username;
-    $s = httpt('getUserProfilePhotos',['user_id'=>$id]);
-    if($s->result->photos[0][3]->file_id or $s->result->photos[0][2]->file_id or $s->result->photos[0][1]->file_id){
-      $telegram->sendChatAction(array('chat_id'=>$chat_id,'action'=>'upload_photo'));
-      $send = $s->result->photos[0][3]->file_id;
-      httpt('sendPhoto',[
-        'chat_id'=>$chat_id,
-        'photo'=>$send,
-        'caption'=>"Your ID : $id\n🔴🔴🔴\nYour Username : @$username\n🔵🔵🔵",
-        'reply_markup'=>json_encode([
-          'inline_keyboard'=>[
-            [
-              ['text'=>"$username",'url'=>"https://telegram.me/$username"]
-            ]
-          ]
-        ])
-      ]);
-    }
-    if(!$s->result->photos[0][1]->file_id){
-      httpt('sendMessage',[
-        'chat_id'=>$chat_id,
-        'text'=>"Your ID : $id\n🔴🔴🔴\nYour Username : @$username\n🔵🔵🔵"
-      ]);
-    }
-  }
-}
 if(isset($update->message->sticker)){
   httpt('sendMessage',[
     'chat_id'=>$update->message->chat->id,
